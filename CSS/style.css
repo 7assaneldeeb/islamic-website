@@ -205,8 +205,18 @@ body {
 }
 
 /* ===== PAGES ===== */
-.page { display: none; min-height: 100vh; padding-top: 70px; }
-.page.active { display: block; animation: fadeIn 0.5s; }
+.page { 
+    display: none; 
+    min-height: 100vh; 
+    padding-top: 70px; 
+}
+.page.active { 
+    display: block !important; 
+    animation: fadeIn 0.5s; 
+}
+#page-home {
+    display: block !important;
+}
 
 /* ===== HERO ===== */
 .hero {
