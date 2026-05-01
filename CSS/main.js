@@ -452,4 +452,4 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAzkar('morning');
     showFact();
     setInterval(showFact, 10000);
-});
+});         
