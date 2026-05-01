@@ -1,78 +1,264 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نور الإسلام - موقع إسلامي شامل</title>
+    <meta name="description" content="نور الإسلام - موقع إسلامي شامل: القرآن، الحديث، الأذكار، السيرة النبوية، قصص الأنبياء">
+    <title>نور الإسلام - موقعك الإسلامي الشامل</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <header class="header" id="header">
-        <nav class="navbar">
-            <div class="logo">
-                <i class="fas fa-mosque"></i>
-                <span>نور الإسلام</span>
-            </div>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#home"><i class="fas fa-home"></i> الرئيسية</a></li>
-                <li><a href="#prayer"><i class="fas fa-mosque"></i> الصلاة</a></li>
-                <li><a href="#quran"><i class="fas fa-book-open"></i> القرآن</a></li>
-                <li><a href="#hadith"><i class="fas fa-feather-alt"></i> الأحاديث</a></li>
-                <li><a href="#azkar"><i class="fas fa-hands"></i> الأذكار</a></li>
-                <li><a href="#tasbih"><i class="fas fa-circle"></i> السبحة</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
-    </header>
+<!-- LOADER -->
+<div class="loader" id="loader">
+    <div class="loader-content">
+        <i class="fas fa-mosque"></i>
+        <h2>نور الإسلام</h2>
+        <div class="loader-spinner"></div>
+    </div>
+</div>
 
-    <!-- HERO -->
-    <section class="hero" id="home">
+<!-- NAVBAR -->
+<header class="header" id="header">
+    <nav class="navbar">
+        <div class="logo" onclick="showSection('home')">
+            <i class="fas fa-mosque"></i>
+            <span>نور الإسلام</span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a onclick="showSection('home')"><i class="fas fa-home"></i> الرئيسية</a></li>
+            <li><a onclick="showSection('quran')"><i class="fas fa-book-open"></i> القرآن</a></li>
+            <li><a onclick="showSection('prayer')"><i class="fas fa-mosque"></i> الصلاة</a></li>
+            <li><a onclick="showSection('hadith')"><i class="fas fa-feather-alt"></i> الأحاديث</a></li>
+            <li><a onclick="showSection('azkar')"><i class="fas fa-hands"></i> الأذكار</a></li>
+            <li><a onclick="showSection('names')"><i class="fas fa-star"></i> أسماء الله</a></li>
+            <li><a onclick="showSection('sira')"><i class="fas fa-book"></i> السيرة</a></li>
+            <li><a onclick="showSection('prophets')"><i class="fas fa-mountain"></i> الأنبياء</a></li>
+            <li><a onclick="showSection('ruqya')"><i class="fas fa-shield-alt"></i> الرقية</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="user-points" onclick="showProfile()">
+                <i class="fas fa-star"></i>
+                <span id="user-points">0</span>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" title="الوضع الليلي">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </button>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- SEARCH MODAL -->
+<div class="search-modal" id="search-modal">
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="ابحث في الموقع..." onkeyup="searchSite()">
+        <button onclick="closeSearch()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="search-results" id="search-results"></div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="profile-modal" id="profile-modal" onclick="closeProfile(event)">
+    <div class="profile-content" onclick="event.stopPropagation()">
+        <button class="close-btn" onclick="closeProfile()"><i class="fas fa-times"></i></button>
+        <div class="profile-header">
+            <i class="fas fa-user-circle"></i>
+            <h2>ملفك الشخصي</h2>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-star"></i>
+                <h3 id="total-points">0</h3>
+                <p>إجمالي النقاط</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-trophy"></i>
+                <h3 id="user-level">مبتدئ</h3>
+                <p>المستوى</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-fire"></i>
+                <h3 id="streak-days">0</h3>
+                <p>أيام متتالية</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-book-open"></i>
+                <h3 id="quran-read">0</h3>
+                <p>سور تم قراءتها</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-circle-notch"></i>
+                <h3 id="total-tasbih">0</h3>
+                <p>إجمالي التسبيح</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-hands"></i>
+                <h3 id="azkar-done">0</h3>
+                <p>الأذكار المكتملة</p>
+            </div>
+        </div>
+        <div class="achievements">
+            <h3>🏆 الإنجازات</h3>
+            <div class="badges-grid" id="badges-grid"></div>
+        </div>
+        <button class="btn btn-danger" onclick="resetProgress()">
+            <i class="fas fa-trash"></i> إعادة تعيين
+        </button>
+    </div>
+</div>
+
+<!-- ====== HOME PAGE ====== -->
+<div class="page active" id="page-home">
+    <section class="hero">
         <div class="hero-content">
             <div class="hero-badge">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
             <h1>نور الإسلام</h1>
-            <p>موقعك الإسلامي الشامل</p>
+            <p>موقعك الإسلامي الشامل لكل ما يخص دينك</p>
             <div class="hero-features">
                 <span><i class="fas fa-book-open"></i> القرآن الكريم</span>
                 <span><i class="fas fa-mosque"></i> أوقات الصلاة</span>
-                <span><i class="fas fa-feather-alt"></i> الأحاديث</span>
-                <span><i class="fas fa-hands"></i> الأذكار</span>
+                <span><i class="fas fa-feather-alt"></i> 100+ حديث</span>
+                <span><i class="fas fa-hands"></i> 100+ ذكر</span>
+                <span><i class="fas fa-star"></i> أسماء الله الحسنى</span>
+                <span><i class="fas fa-shield-alt"></i> الرقية الشرعية</span>
             </div>
             <div class="hero-buttons">
-                <a href="#quran" class="btn btn-primary">
-                    <i class="fas fa-book-open"></i> القرآن الكريم
-                </a>
-                <a href="#prayer" class="btn btn-outline">
+                <button class="btn btn-primary" onclick="showSection('quran')">
+                    <i class="fas fa-book-open"></i> ابدأ القراءة
+                </button>
+                <button class="btn btn-outline" onclick="showSection('prayer')">
                     <i class="fas fa-clock"></i> أوقات الصلاة
-                </a>
+                </button>
             </div>
         </div>
         <div class="hero-date">
             <i class="fas fa-calendar-alt"></i>
             <span id="hijri-date">جاري التحميل...</span>
         </div>
-        <div class="hero-scroll">
-            <a href="#prayer"><i class="fas fa-chevron-down"></i></a>
+    </section>
+
+    <!-- Quick Cards -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">🏠</span>
+                <h2>اختر القسم</h2>
+                <p>كل ما يهم المسلم في مكان واحد</p>
+            </div>
+            <div class="quick-grid">
+                <div class="quick-card" onclick="showSection('quran')">
+                    <i class="fas fa-book-open"></i>
+                    <h3>القرآن الكريم</h3>
+                    <p>114 سورة كاملة</p>
+                </div>
+                <div class="quick-card" onclick="showSection('prayer')">
+                    <i class="fas fa-mosque"></i>
+                    <h3>أوقات الصلاة</h3>
+                    <p>لجميع المدن</p>
+                </div>
+                <div class="quick-card" onclick="showSection('hadith')">
+                    <i class="fas fa-feather-alt"></i>
+                    <h3>الأحاديث النبوية</h3>
+                    <p>100+ حديث صحيح</p>
+                </div>
+                <div class="quick-card" onclick="showSection('azkar')">
+                    <i class="fas fa-hands"></i>
+                    <h3>الأذكار</h3>
+                    <p>الصباح والمساء والنوم</p>
+                </div>
+                <div class="quick-card" onclick="showSection('names')">
+                    <i class="fas fa-star"></i>
+                    <h3>أسماء الله الحسنى</h3>
+                    <p>99 اسم بمعانيها</p>
+                </div>
+                <div class="quick-card" onclick="showSection('sira')">
+                    <i class="fas fa-book"></i>
+                    <h3>السيرة النبوية</h3>
+                    <p>حياة النبي ﷺ</p>
+                </div>
+                <div class="quick-card" onclick="showSection('prophets')">
+                    <i class="fas fa-mountain"></i>
+                    <h3>قصص الأنبياء</h3>
+                    <p>قصص 25 نبي</p>
+                </div>
+                <div class="quick-card" onclick="showSection('ruqya')">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>الرقية الشرعية</h3>
+                    <p>للحماية والشفاء</p>
+                </div>
+                <div class="quick-card" onclick="showSection('tasbih')">
+                    <i class="fas fa-circle-notch"></i>
+                    <h3>السبحة</h3>
+                    <p>سبحة إلكترونية</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- PRAYER TIMES -->
-    <section class="section prayer-section" id="prayer">
+    <!-- Daily Verse -->
+    <section class="section daily-section">
         <div class="container">
             <div class="section-header">
+                <span class="section-badge">⭐</span>
+                <h2>آية اليوم</h2>
+            </div>
+            <div class="daily-card" id="daily-verse">
+                <p>جاري التحميل...</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ====== QURAN PAGE ====== -->
+<div class="page" id="page-quran">
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">📖</span>
+                <h2>القرآن الكريم</h2>
+                <p>اقرأ واستمع للقرآن الكريم كاملاً</p>
+            </div>
+            <div class="quran-controls">
+                <select id="surah-select" class="select-input" onchange="loadSurah()"></select>
+                <select id="reciter-select" class="select-input" onchange="loadSurah()">
+                    <option value="ar.alafasy">مشاري العفاسي</option>
+                    <option value="ar.abdurrahmaansudais">السديس</option>
+                    <option value="ar.husary">الحصري</option>
+                    <option value="ar.minshawi">المنشاوي</option>
+                </select>
+                <button class="btn btn-primary" onclick="loadSurah()">
+                    <i class="fas fa-sync"></i> تحديث
+                </button>
+            </div>
+            <div class="quran-display" id="quran-display">
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>جاري التحميل...</p>
+                </div>
+            </div>
+            <div class="audio-player" id="audio-player">
+                <audio id="quran-audio" controls></audio>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ====== PRAYER PAGE ====== -->
+<div class="page" id="page-prayer">
+    <section class="section prayer-section">
+        <div class="container">
+            <div class="section-header light">
                 <span class="section-badge">🕌</span>
                 <h2>مواقيت الصلاة</h2>
-                <p>اختر مدينتك لمعرفة مواقيت الصلاة</p>
+                <p>اختر مدينتك</p>
             </div>
             <div class="prayer-controls">
-                <select id="city-select" class="select-input">
+                <select id="city-select" class="select-input" onchange="getPrayerTimes()">
                     <option value="Cairo">القاهرة 🇪🇬</option>
                     <option value="Mecca">مكة المكرمة 🕋</option>
                     <option value="Medina">المدينة المنورة 🕌</option>
@@ -85,12 +271,12 @@
                     <option value="Tunis">تونس 🇹🇳</option>
                     <option value="Algiers">الجزائر 🇩🇿</option>
                     <option value="Casablanca">الدار البيضاء 🇲🇦</option>
+                    <option value="Doha">الدوحة 🇶🇦</option>
+                    <option value="Manama">المنامة 🇧🇭</option>
+                    <option value="Muscat">مسقط 🇴🇲</option>
                 </select>
-                <button class="btn btn-primary" onclick="getPrayerTimes()">
-                    <i class="fas fa-search"></i> عرض المواقيت
-                </button>
             </div>
-            <div class="prayer-grid" id="prayer-grid">
+            <div class="prayer-grid">
                 <div class="prayer-card" id="card-fajr">
                     <div class="prayer-emoji">🌅</div>
                     <h3>الفجر</h3>
@@ -124,102 +310,104 @@
             </div>
             <div class="countdown-box">
                 <i class="fas fa-clock"></i>
-                <span>الوقت المتبقي لأقرب صلاة: </span>
+                <span>الوقت المتبقي:</span>
                 <strong id="countdown">--:--:--</strong>
             </div>
         </div>
     </section>
+</div>
 
-    <!-- AD -->
-    <div class="ad-banner">
-        <p>📢 مساحة إعلانية</p>
-    </div>
-
-    <!-- QURAN -->
-    <section class="section quran-section" id="quran">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">📖</span>
-                <h2>القرآن الكريم</h2>
-                <p>اقرأ واستمع للقرآن الكريم كاملاً</p>
-            </div>
-            <div class="quran-controls">
-                <select id="surah-select" class="select-input" onchange="loadSurah()">
-                </select>
-                <select id="reciter-select" class="select-input">
-                    <option value="ar.alafasy">مشاري العفاسي</option>
-                    <option value="ar.abdurrahmaansudais">السديس</option>
-                    <option value="ar.husary">الحصري</option>
-                </select>
-                <button class="btn btn-primary" onclick="loadSurah()">
-                    <i class="fas fa-play"></i> تشغيل
-                </button>
-            </div>
-            <div class="quran-display" id="quran-display">
-                <div class="loading-state">
-                    <div class="spinner"></div>
-                    <p>جاري تحميل القرآن الكريم...</p>
-                </div>
-            </div>
-            <div class="audio-player" id="audio-player">
-                <audio id="quran-audio" controls>
-                    <source src="" type="audio/mp3">
-                </audio>
-            </div>
-        </div>
-    </section>
-
-    <!-- HADITH -->
-    <section class="section hadith-section" id="hadith">
+<!-- ====== HADITH PAGE ====== -->
+<div class="page" id="page-hadith">
+    <section class="section">
         <div class="container">
             <div class="section-header">
                 <span class="section-badge">🌿</span>
-                <h2>حديث اليوم</h2>
-                <p>من صحيح البخاري ومسلم</p>
+                <h2>الأحاديث النبوية</h2>
+                <p>أكثر من 100 حديث صحيح</p>
             </div>
-            <div class="hadith-card">
-                <div class="hadith-quote">❝</div>
-                <p class="hadith-text" id="hadith-text">جاري التحميل...</p>
-                <div class="hadith-source" id="hadith-source"></div>
-                <button class="btn btn-primary" onclick="getNewHadith()">
-                    <i class="fas fa-sync-alt"></i> حديث آخر
-                </button>
-            </div>
+            <div class="hadith-categories" id="hadith-categories"></div>
+            <div class="hadith-list" id="hadith-list"></div>
         </div>
     </section>
+</div>
 
-    <!-- AD -->
-    <div class="ad-banner">
-        <p>📢 مساحة إعلانية</p>
-    </div>
-
-    <!-- AZKAR -->
-    <section class="section azkar-section" id="azkar">
+<!-- ====== AZKAR PAGE ====== -->
+<div class="page" id="page-azkar">
+    <section class="section azkar-section">
         <div class="container">
             <div class="section-header light">
                 <span class="section-badge">🤲</span>
-                <h2>الأذكار</h2>
-                <p>أذكار الصباح والمساء والنوم</p>
+                <h2>الأذكار الشاملة</h2>
+                <p>أذكار اليوم كاملة</p>
             </div>
-            <div class="azkar-tabs">
-                <button class="tab-btn active" onclick="showAzkar('morning', this)">
-                    🌅 الصباح
-                </button>
-                <button class="tab-btn" onclick="showAzkar('evening', this)">
-                    🌙 المساء
-                </button>
-                <button class="tab-btn" onclick="showAzkar('sleep', this)">
-                    😴 النوم
-                </button>
-            </div>
+            <div class="azkar-tabs" id="azkar-tabs"></div>
             <div class="azkar-grid" id="azkar-container"></div>
         </div>
     </section>
+</div>
 
-    <!-- TASBIH -->
-    <section class="section tasbih-section" id="tasbih">
+<!-- ====== NAMES PAGE ====== -->
+<div class="page" id="page-names">
+    <section class="section">
         <div class="container">
             <div class="section-header">
+                <span class="section-badge">⭐</span>
+                <h2>أسماء الله الحسنى</h2>
+                <p>99 اسم من أسماء الله</p>
+            </div>
+            <div class="names-grid" id="names-grid"></div>
+        </div>
+    </section>
+</div>
+
+<!-- ====== SIRA PAGE ====== -->
+<div class="page" id="page-sira">
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">📚</span>
+                <h2>السيرة النبوية</h2>
+                <p>حياة النبي محمد ﷺ</p>
+            </div>
+            <div class="sira-timeline" id="sira-timeline"></div>
+        </div>
+    </section>
+</div>
+
+<!-- ====== PROPHETS PAGE ====== -->
+<div class="page" id="page-prophets">
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">🏔️</span>
+                <h2>قصص الأنبياء</h2>
+                <p>قصص أنبياء الله عليهم السلام</p>
+            </div>
+            <div class="prophets-grid" id="prophets-grid"></div>
+        </div>
+    </section>
+</div>
+
+<!-- ====== RUQYA PAGE ====== -->
+<div class="page" id="page-ruqya">
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">🛡️</span>
+                <h2>الرقية الشرعية</h2>
+                <p>الرقية بالقرآن والسنة</p>
+            </div>
+            <div class="ruqya-content" id="ruqya-content"></div>
+        </div>
+    </section>
+</div>
+
+<!-- ====== TASBIH PAGE ====== -->
+<div class="page" id="page-tasbih">
+    <section class="section tasbih-section">
+        <div class="container">
+            <div class="section-header light">
                 <span class="section-badge">📿</span>
                 <h2>السبحة الإلكترونية</h2>
             </div>
@@ -240,6 +428,8 @@
                     <button onclick="changeTasbih('الحمد لله', 33)">الحمد لله</button>
                     <button onclick="changeTasbih('الله أكبر', 34)">الله أكبر</button>
                     <button onclick="changeTasbih('لا إله إلا الله', 100)">لا إله إلا الله</button>
+                    <button onclick="changeTasbih('أستغفر الله', 100)">أستغفر الله</button>
+                    <button onclick="changeTasbih('اللهم صل على محمد', 100)">الصلاة على النبي</button>
                 </div>
                 <button class="reset-btn" onclick="resetTasbih()">
                     <i class="fas fa-redo"></i> إعادة
@@ -247,67 +437,62 @@
             </div>
         </div>
     </section>
+</div>
 
-    <!-- FACTS -->
-    <section class="section facts-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">⭐</span>
-                <h2>هل تعلم؟</h2>
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">
+                    <i class="fas fa-mosque"></i>
+                    <span>نور الإسلام</span>
+                </div>
+                <p>موقعك الإسلامي الشامل</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
             </div>
-            <div class="fact-card" id="facts-container" onclick="showFact()">
-                <p>اضغط لمعرفة معلومة إسلامية جديدة</p>
+            <div class="footer-links">
+                <h4>الأقسام</h4>
+                <ul>
+                    <li><a onclick="showSection('quran')">القرآن الكريم</a></li>
+                    <li><a onclick="showSection('hadith')">الأحاديث</a></li>
+                    <li><a onclick="showSection('azkar')">الأذكار</a></li>
+                    <li><a onclick="showSection('names')">أسماء الله</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>المزيد</h4>
+                <ul>
+                    <li><a onclick="showSection('sira')">السيرة النبوية</a></li>
+                    <li><a onclick="showSection('prophets')">قصص الأنبياء</a></li>
+                    <li><a onclick="showSection('ruqya')">الرقية</a></li>
+                    <li><a onclick="showSection('tasbih')">السبحة</a></li>
+                </ul>
             </div>
         </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <i class="fas fa-mosque"></i>
-                        <span>نور الإسلام</span>
-                    </div>
-                    <p>موقعك الإسلامي الشامل للقرآن والسنة</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-telegram"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>روابط سريعة</h4>
-                    <ul>
-                        <li><a href="#prayer"><i class="fas fa-mosque"></i> أوقات الصلاة</a></li>
-                        <li><a href="#quran"><i class="fas fa-book-open"></i> القرآن الكريم</a></li>
-                        <li><a href="#hadith"><i class="fas fa-feather-alt"></i> الأحاديث</a></li>
-                        <li><a href="#azkar"><i class="fas fa-hands"></i> الأذكار</a></li>
-                        <li><a href="#tasbih"><i class="fas fa-circle"></i> السبحة</a></li>
-                    </ul>
-                </div>
-                <div class="footer-info">
-                    <h4>عن الموقع</h4>
-                    <p>موقع نور الإسلام هو موقع إسلامي شامل يهدف لخدمة المسلمين في كل مكان</p>
-                    <div class="footer-badge">
-                        <i class="fas fa-heart"></i>
-                        صُنع بحب لخدمة الإسلام
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2024 نور الإسلام - جميع الحقوق محفوظة</p>
-            </div>
+        <div class="footer-bottom">
+            <p>© 2024 نور الإسلام - صُنع بحب لخدمة الإسلام ❤️</p>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <button class="scroll-top" id="scroll-top" onclick="scrollToTop()">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+<button class="scroll-top" id="scroll-top" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
 
-    <script src="main.js"></script>
+<button class="search-btn" onclick="openSearch()">
+    <i class="fas fa-search"></i>
+</button>
+
+<!-- Notification -->
+<div class="notification" id="notification"></div>
+
+<script src="main.js"></script>
 </body>
 </html>
