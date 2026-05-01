@@ -829,8 +829,13 @@ function scrollToTop() {
 // ===== START =====
 window.addEventListener('load', () => {
     setTimeout(() => {
-        document.getElementById('loader')?.classList.add('hidden');
-    }, 800);
+        const loader = document.getElementById('loader');
+        if (loader) {
+            loader.style.opacity = '0';
+            loader.style.transition = 'opacity 0.5s';
+            setTimeout(() => loader.style.display = 'none', 500);
+        }
+    }, 1500);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
