@@ -1,4 +1,5 @@
-// ===== USER DATA =====
+// نور الإسلام v2.0
+// // ===== USER DATA =====
 let userData = JSON.parse(localStorage.getItem('userData')) || {
     points: 0,
     totalTasbih: 0,
